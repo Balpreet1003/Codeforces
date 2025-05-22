@@ -48,7 +48,7 @@ void printvec(const vector<T>& vec) {
             cout << x << ' ';
       }
       cout << endl;
-}
+}    
 
 int main() {
       ios_base::sync_with_stdio(0);
@@ -61,15 +61,33 @@ int main() {
             cin>>n;
             vi a(n);
             cinvec(a,n);
-            ll cnt=0,ans=0;
+            ll ans=0,ol=0,oR=0,zl=0,zr=0;
+            vector<vector<ll>>b(n,vector<ll>(4,0));
+
             for(int i=n-1;i>=0;i--){
-                  if(a[i]==1) ans+=cnt;
-                  else cnt++;
+                  b[i][1]=oR;
+                  b[i][3]=zr;
+                  if(a[i]==0)zr++;
+                  else{
+                        ans+=zr;
+                        oR++;
+                  }
             }
-            ll an1=ans;
             for(int i=0;i<n;i++){
-                  
+                  b[i][0]=ol;
+                  b[i][2]=zl;
+                  if(a[i]==0)zl++;
+                  else ol++;
             }
+
+            ll curr=ans;
+
+            for(int i=0;i<n;i++){
+                  if(a[i]==0) ans=max(ans,curr-b[i][0]+b[i][3]);
+                  else ans=max(ans,curr-b[i][3]+b[i][0]);
+            }
+
+            
             cout<<ans<<endl;
       }
       return 0;
